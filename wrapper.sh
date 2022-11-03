@@ -28,5 +28,5 @@ if [[ -z "${SKIP_HEALTHCHECK}" ]]; then
   curl --silent --fail --max-time 5 --output /dev/null "http://${APP_HOST:-app}:${APP_PORT:-8080}${APP_HEALTHCHECK_PATH:-/health}" || ( echo "Couldn't contact app"; exit 1 )
 fi
 
-# run in foreground as pid 1
-exec /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/nginx.conf
+# run entrypoint
+/docker-entrypoint.sh $@

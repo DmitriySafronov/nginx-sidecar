@@ -1,0 +1,8 @@
+/.circleci/
+/.git/
+/.github/
+CHANGELOG.md
+Dockerfile
+image
+README.md
+VERSION

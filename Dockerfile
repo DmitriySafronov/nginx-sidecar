@@ -9,10 +9,11 @@ FROM nginx:stable
 #     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
 #     truncate -s 0 /var/log/*log
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh && \
+COPY wrapper.sh /wrapper.sh
+RUN chmod a+x /wrapper.sh && \
     mkdir -p /usr/local/etc/nginx
 
 COPY *.conf.template /usr/local/etc/nginx/
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/wrapper.sh"]
+CMD ["nginx", "-g", "daemon off;"]
