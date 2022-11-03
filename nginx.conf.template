@@ -15,7 +15,7 @@ worker_rlimit_nofile 4096;
 # Log to stdout.
 # Use the stdout of init on Docker to get the logs to the log drain.
 #
-error_log /proc/1/fd/1 warn;
+error_log /var/log/nginx/error.log warn;
 
 pid /var/run/nginx.pid;
 
@@ -39,8 +39,7 @@ http {
   include /etc/nginx/mime.types;
   default_type application/octet-stream;
 
-  log_format  main  '[nginx] '
-                    'remote_addr=[$remote_addr] time=[$time_local] duration=[$request_time] '
+  log_format  main  'remote_addr=[$remote_addr] time=[$time_local] duration=[$request_time] '
                     'status=[$status] cache=[$upstream_cache_status] upstream_status=[$upstream_status] '
                     'method=[$request_method] path=[$request_uri] size=[$body_bytes_sent] '
                     '"$remote_user" "$http_referer" "$http_user_agent" "$http_x_forwarded_for"';
@@ -48,7 +47,7 @@ http {
   # Log to stdout.
   # Use the stdout of init on Docker to get the logs to the log drain.
   #
-  access_log /proc/1/fd/1 main;
+  access_log /var/log/nginx/access.log main;
 
   tcp_nodelay on;
 
