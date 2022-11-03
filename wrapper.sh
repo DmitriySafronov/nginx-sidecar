@@ -25,8 +25,8 @@ set -e
 
 # Wait for the application to start before accepting ALB requests.
 if [[ -z "${SKIP_HEALTHCHECK}" ]]; then
-  curl --silent --fail --max-time 5 --output /dev/null "http://${APP_HOST:-app}:${APP_PORT:-8080}${APP_HEALTHCHECK_PATH:-/health}" || ( echo "Couldn't contact app"; exit 1 )
+  curl --silent --fail --max-time 5 --output /dev/null "http://${APP_HOST:-app}:${APP_PORT:-8080}${APP_HEALTHCHECK_PATH:-/health}" || ( echo "Couldn't contact app" > /dev/stdout ; exit 1 )
 fi
 
 # run entrypoint
-/docker-entrypoint.sh $@
+/docker-entrypoint.sh "$@"
