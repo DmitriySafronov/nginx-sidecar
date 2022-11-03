@@ -1,0 +1,30 @@
+server {
+  listen                  <NGINX_PORT> deferred; # default 80
+  listen                  [::]:<NGINX_PORT> deferred; # default 80
+
+  client_body_buffer_size <NGINX_CLIENT_BODY_BUFFER_SIZE>; # default 8k
+  client_max_body_size <NGINX_CLIENT_MAX_BODY_SIZE>; # default 5M
+
+  # Cache
+  include snippets/cache.conf;
+
+  location / {
+    # Use external config
+    include snippets/proxy.conf;
+  }
+}
+
+server {
+  listen <NGINX_STATUS_PORT>;
+  server_name localhost;
+
+  access_log off;
+  allow <NGINX_STATUS_ALLOW_FROM>;
+  deny all;
+
+  location /nginx_status {
+    stub_status;
+    # ensures the version information can be retrieved
+    server_tokens on;
+  }
+}
